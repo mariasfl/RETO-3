@@ -1,0 +1,98 @@
+#Codigo del sistema 
+
+class MenuItem: 
+    def __init__(self, name, price): 
+        self.name = name 
+        self.price = price 
+    def calculate_total(self): 
+        return self.price 
+    def __str__(self): 
+        return f"{self.name} - ${self.price}" 
+
+class Bebida(MenuItem): 
+    def __init__(self, name, price): 
+        super().__init__(name, price) 
+        self.price = price 
+    #este metodo sirve para mostrar el nombre y el precio del item como texto en el menu
+    def __str__(self): 
+        return f"{self.name} - ${self.price}" 
+
+class Aperitivo(MenuItem): 
+    def __init__(self, name, price): 
+        super().__init__(name, price) 
+    def __str__(self): 
+        return f"{self.name} - ${self.price}" 
+
+class PlatoPrincipal(MenuItem): 
+    def __init__(self, name, price): 
+        super().__init__(name, price) 
+    def __str__(self): 
+        return f"{self.name} - ${self.price}" 
+
+class Orden: 
+    def __init__(self): 
+        self.items = [] 
+    #agrega un item a la orden
+    def add_item(self, item): 
+        self.items.append(item) 
+    def calculate_total(self): 
+        return sum(item.calculate_total() for item in self.items) 
+    def apply_discount(self, discount): 
+        total = self.calculate_total() 
+        return total * (1 - discount) 
+    def show_order(self):    
+        #muestra el pedido con cada cosa que se agrgó
+        print("\n Tu pedido:") 
+        for item in self.items: 
+            print(item) 
+        print(f"\nTotal: ${self.calculate_total()}") 
+
+# lista de los productos con los precios
+menu_items = [ 
+    Aperitivo("Nachos", 5), 
+    Aperitivo("Pincho", 6), 
+    PlatoPrincipal("Pasta Primavera", 12), 
+    PlatoPrincipal("Corte de carne", 20), 
+    Bebida("Soda", 2), 
+    Bebida("Wine", 10), 
+    PlatoPrincipal("Hamburguesa", 15), 
+    Aperitivo("Burritos", 7), 
+    Bebida("Café", 3), 
+    PlatoPrincipal("Pizza Margarita", 14) 
+] 
+
+if __name__ == "__main__": 
+    order = Orden() 
+    while True: 
+        print("\n--- Menú del restaurante ---") 
+        for i, item in enumerate(menu_items, start=1): 
+            print(f"{i}. {item}") #enumera los items del menu automaticamente
+
+        ElegirDescuento = input("\nElija el número del producto (o 'f' para finalizar orden): ") 
+
+        if ElegirDescuento.lower() == 'f': 
+            break 
+
+        # el metodo "isdigit" sirve para filtrar los caracteres que no son numeros enteros positivos
+        # si es verdadero lo convierte a entero (int)
+        if ElegirDescuento.isdigit(): 
+            ElegirDescuento = int(ElegirDescuento) 
+            if 1 <= ElegirDescuento <= len(menu_items): 
+                order.add_item(menu_items[ElegirDescuento - 1]) 
+                print(f"{menu_items[ElegirDescuento - 1].name} agregado a la orden.") 
+            else: 
+                print("Opción inválida.") 
+        else: 
+            print("Opción no válida.") 
+
+    # Mostrar el pedido final
+    order.show_order() 
+
+    # Preguntar si quiere aplicar descuento
+    aplicar = input("\n¿Deseas aplicar un 10% de descuento?: ") 
+    if aplicar.lower() == "si": 
+        total_desc = order.apply_discount(0.10) 
+        print(f"Total con descuento del 10%: ${total_desc}") 
+    else: 
+        print("Total sin descuento aplicado: ${order.calculate_total()}") 
+
