@@ -1,0 +1,32 @@
+classDiagram
+    class MenuItem {
+        - str name
+        - float price
+        + float calculate_total()
+        + str __str__()
+    }
+
+    class Bebida {
+        + str __str__()
+    }
+
+    class Aperitivo {
+        + str __str__()
+    }
+
+    class PlatoPrincipal {
+        + str __str__()
+    }
+
+    class Orden {
+        - List MenuItem
+        + add_item(item: MenuItem)
+        + float calculate_total()
+        + float apply_discount()
+        + show_order()
+    }
+
+    MenuItem <|-- Bebida : "es un"
+    MenuItem <|-- Aperitivo : "es un"
+    MenuItem <|-- PlatoPrincipal : "es un"
+    Orden "1" *-- "*" MenuItem : tiene 
