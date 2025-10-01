@@ -5,5 +5,6 @@ El menú cuenta con:
 1. Aperitivos
 2. Bebidas
 3. Platos principales
+   
 En el cual se puede crear una orden con las diferentes opciones de productos y calcular el total a pagar con o sin descuento.
 
